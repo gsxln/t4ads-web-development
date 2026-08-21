@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "Product API",
+    "description": "CRUD de produtos — base URL: http://localhost:8080",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "productId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Listar produtos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products",
+          "host": ["{{baseUrl}}"],
+          "path": ["products"]
+        }
+      }
+    },
+    {
+      "name": "Buscar produto por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products/{{productId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["products", "{{productId}}"]
+        }
+      }
+    },
+    {
+      "name": "Criar produto",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    const json = pm.response.json();",
+              "    if (json.id) {",
+              "        pm.collectionVariables.set('productId', json.id);",
+              "    }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Notebook X\",\n  \"description\": \"I5 8GB SSD512\",\n  \"price\": 3500\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/products",
+          "host": ["{{baseUrl}}"],
+          "path": ["products"]
+        }
+      }
+    },
+    {
+      "name": "Atualizar produto",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Notebook X Atualizado\",\n  \"description\": \"I7 16GB SSD1T\",\n  \"price\": 5200\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/products/{{productId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["products", "{{productId}}"]
+        }
+      }
+    },
+    {
+      "name": "Excluir produto",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products/{{productId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["products", "{{productId}}"]
+        }
+      }
+    }
+  ]
+}
