@@ -1,13 +1,13 @@
 {
   "info": {
     "name": "Music API",
-    "description": "CRUD de músicas com filtros — base URL: http://localhost:8081",
+    "description": "CRUD de músicas com filtros — base URL: http://localhost:8082",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:8081"
+      "value": "http://localhost:8082"
     },
     {
       "key": "musicId",
