@@ -1,0 +1,153 @@
+{
+  "info": {
+    "name": "Music API",
+    "description": "CRUD de músicas com filtros — base URL: http://localhost:8081",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "musicId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Listar músicas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/musics",
+          "host": ["{{baseUrl}}"],
+          "path": ["musics"]
+        }
+      }
+    },
+    {
+      "name": "Listar músicas por estilo",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/musics?estilo=rock",
+          "host": ["{{baseUrl}}"],
+          "path": ["musics"],
+          "query": [
+            {
+              "key": "estilo",
+              "value": "rock"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Listar músicas por estilo e duração",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/musics?estilo=rock&duracaoMenor=3",
+          "host": ["{{baseUrl}}"],
+          "path": ["musics"],
+          "query": [
+            {
+              "key": "estilo",
+              "value": "rock"
+            },
+            {
+              "key": "duracaoMenor",
+              "value": "3"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Buscar música por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/musics/{{musicId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["musics", "{{musicId}}"]
+        }
+      }
+    },
+    {
+      "name": "Criar música",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    const json = pm.response.json();",
+              "    if (json.id) {",
+              "        pm.collectionVariables.set('musicId', json.id);",
+              "    }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"MUS-TEST\",\n  \"title\": \"Nova Canção\",\n  \"style\": \"rock\",\n  \"artist\": \"Artista Teste\",\n  \"album\": \"Álbum Demo\",\n  \"duration\": 3.5\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/musics",
+          "host": ["{{baseUrl}}"],
+          "path": ["musics"]
+        }
+      }
+    },
+    {
+      "name": "Atualizar música",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"MUS-TEST\",\n  \"title\": \"Nova Canção (Editada)\",\n  \"style\": \"pop\",\n  \"artist\": \"Artista Teste\",\n  \"album\": \"Álbum Demo Vol. 2\",\n  \"duration\": 4.2\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/musics/{{musicId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["musics", "{{musicId}}"]
+        }
+      }
+    },
+    {
+      "name": "Excluir música",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/musics/{{musicId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["musics", "{{musicId}}"]
+        }
+      }
+    }
+  ]
+}
