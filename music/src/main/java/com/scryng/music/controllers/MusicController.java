@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.scryng.music.dto.MusicFilter;
 import com.scryng.music.entities.Music;
 import com.scryng.music.services.MusicService;
 
@@ -26,8 +28,18 @@ public class MusicController {
     private MusicService service;
 
     @GetMapping
-    public ResponseEntity<List<Music>> getAll() {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<Music>> getAll(
+            @RequestParam(required = false) String codigo,
+            @RequestParam(required = false) String titulo,
+            @RequestParam(required = false) String estilo,
+            @RequestParam(required = false) String artista,
+            @RequestParam(required = false) String album,
+            @RequestParam(required = false) Double duracao,
+            @RequestParam(required = false) Double duracaoMenor,
+            @RequestParam(required = false) Double duracaoMaior) {
+        MusicFilter filter = new MusicFilter(
+                codigo, titulo, estilo, artista, album, duracao, duracaoMenor, duracaoMaior);
+        return ResponseEntity.ok(service.findByFilter(filter));
     }
 
     @GetMapping("{id}")

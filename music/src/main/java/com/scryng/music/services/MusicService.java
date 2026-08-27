@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scryng.music.dto.MusicFilter;
 import com.scryng.music.entities.Music;
 import com.scryng.music.repositories.MusicRepository;
+import com.scryng.music.repositories.MusicSpecifications;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -18,6 +20,13 @@ public class MusicService {
 
     public List<Music> findAll() {
         return repository.findAll();
+    }
+
+    public List<Music> findByFilter(MusicFilter filter) {
+        if (!filter.hasAnyFilter()) {
+            return findAll();
+        }
+        return repository.findAll(MusicSpecifications.withFilter(filter));
     }
 
     public Music findById(Long id) {
